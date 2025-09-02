@@ -32,11 +32,12 @@ Ao escolher a opção de adicionar aluno, o sistema solicita o nome, converte pa
 - O tamanho da fonte do terminal não é controlado pelo código, mas pode ser ajustado nas configurações do terminal.
 
 ## Como executar
-
-1. Compile todos os arquivos `.c` do projeto. 
-2. Execute o programa.
-3. Siga o menu interativo para realizar as operações desejadas.
+1. Instale o compilador da linguagem C  Ex: gcc ou clang
+2. no terminal use o comando: mkdir output 
+3. Compile todos os arquivos `.c` do projeto.
+    1. com o GCC use gcc main.c utils.c -o output/gerenciador
+    2. clang main.c utils.c -o output/gerenciador 
+4. Execute o programa.
+5. Siga o menu interativo para realizar as operações desejadas.
 
 ---
-
-**Exemplo de linha no arquivo:** 

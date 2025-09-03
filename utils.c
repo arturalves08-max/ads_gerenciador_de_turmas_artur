@@ -5,57 +5,62 @@
 
 #include "include/utils.h"
 
+// Verifica se o aluno jÃ¡ existe no arquivo
 int isAlunoExist(FILE *arquivo, const char *nome) {
     char buffer[NOME_MAX];
-    rewind(arquivo);
+    rewind(arquivo);  // Garante que comeÃ§amos a ler do inÃ­cio
+
     while (fgets(buffer, sizeof(buffer), arquivo)) {
-        buffer[strcspn(buffer, ";")] = '\0';
-        if(strcmp(buffer, nome) == 0) {
+        buffer[strcspn(buffer, ";")] = '\0'; // Remove parte apÃ³s ';'
+        if (strcmp(buffer, nome) == 0) {
             return 1;
-        } 
-    } 
+        }
+    }
+
     return 0;
 }
 
+// Adiciona um aluno ao arquivo
 void adicionarAluno(Aluno *nomeAluno, FILE *arquivo) {
-    nomeAluno->nome = (char *) malloc(NOME_MAX * sizeof(char));
-    if(nomeAluno->nome == NULL) {
-        printf("Erro de alocação de memória! \n");
-        exit(1);
-    }
-
     printf("Digite o nome do aluno: \n");
     fgets(nomeAluno->nome, NOME_MAX, stdin);
-    nomeAluno->nome[strcspn(nomeAluno ->nome, "\n")] = '\0';
-    
-    char bufferFile[strlen(nomeAluno->nome)];
+    nomeAluno->nome[strcspn(nomeAluno->nome, "\n")] = '\0'; // Remove '\n'
+
+    // Criar uma cÃ³pia do nome para converter para minÃºsculas
+    char bufferFile[NOME_MAX];
     strcpy(bufferFile, nomeAluno->nome);
-    
+
     char *nomeMinusculo = minuscula(bufferFile);
 
-    if(isAlunoExist(arquivo, nomeMinusculo)) {
-        printf("Aluno já existe");
+    if (isAlunoExist(arquivo, nomeMinusculo)) {
+        printf("Aluno ja existe!\n");
+        free(nomeMinusculo);
         return;
     }
 
-    fprintf(arquivo,"%s;\n", nomeMinusculo);
+    fprintf(arquivo, "%s;\n", nomeMinusculo);
     fflush(arquivo);
-    printf("Aluno Adicionado com Sucesso! \n\n");
+    free(nomeMinusculo);
+
+    printf("Aluno Adicionado com Sucesso!\n\n");
 }
 
-char* minuscula(const char *minuscula) {
-    char *string = (char *) malloc(strlen(minuscula) *sizeof(char));
-    if(string == NULL) {
-        printf("Erro de Alocação !");
+// Converte uma string para minÃºsculas e retorna uma nova string
+char* minuscula(const char *texto) {
+    char *string = malloc(strlen(texto) + 1);  // +1 para '\0'
+    if (string == NULL) {
+        printf("Erro de Alocacao de Memoria!\n");
         exit(1);
     }
-    for(int i = 0; i < strlen(minuscula); i++) {
-        string[i] = tolower((unsigned char) minuscula[i]);
+
+    for (int i = 0; texto[i]; i++) {
+        string[i] = tolower((unsigned char) texto[i]);
     }
-    string[strlen(minuscula)] = '\0';
+    string[strlen(texto)] = '\0';
+
     return string;
 }
 
-void registrarNota() {
+void listarAluno() {
 
 }
